@@ -72,4 +72,14 @@ class StringCalculatorTest extends TestCase
     {
          $this->assertSame(3, $this->stringCalculator->add("//;\n1;2"));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_throw_an_exception_if_a_negative_number_is_passed_and_which_one_was(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('negatives not allowed -2');
+        $this->stringCalculator->add("1,-2");
+    }
 }

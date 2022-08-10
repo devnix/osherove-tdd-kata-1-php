@@ -24,7 +24,13 @@ final class StringCalculator
 
     private function toInt(string $number): int
     {
-        return (int) $number;
+        $result = (int) $number;
+
+        if (0 > $result) {
+            throw new \RuntimeException(sprintf('negatives not allowed %s', $result));
+        }
+
+        return $result;
     }
 
     /**
