@@ -38,4 +38,16 @@ class StringCalculatorTest extends TestCase
         $this->assertSame(3, $stringCalculator->add('1,2'));
         $this->assertSame(666, $stringCalculator->add('555,111'));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_allow_to_pass_any_amount_of_parameters(): void
+    {
+        $stringCalculator = new StringCalculator();
+        $this->assertSame(4, $stringCalculator->add('1,1,2'));
+        $this->assertSame(12, $stringCalculator->add('1,1,2,3,5'));
+        $this->assertSame(20, $stringCalculator->add('1,1,2,3,5,8'));
+        $this->assertSame(33, $stringCalculator->add('1,1,2,3,5,8,13'));
+    }
 }
