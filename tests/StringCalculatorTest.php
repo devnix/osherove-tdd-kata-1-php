@@ -64,4 +64,12 @@ class StringCalculatorTest extends TestCase
          $this->assertSame(6, $this->stringCalculator->add("1,2\n3"));
          $this->assertSame(10, $this->stringCalculator->add("1,2\n3,4"));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_support_parsing_defined_delimiters_in_a_header(): void
+    {
+         $this->assertSame(3, $this->stringCalculator->add("//;\n1;2"));
+    }
 }

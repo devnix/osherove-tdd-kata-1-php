@@ -6,6 +6,10 @@ namespace App;
 
 final class StringCalculator
 {
+    private const DELIMITERS = [
+        ',',
+        "\n",
+    ];
     public function add(string $numbers): int
     {
         $listOfNumbers = $this->parseNumbers($numbers);
@@ -30,10 +34,12 @@ final class StringCalculator
      */
     private function parseNumbers(string $numbers): iterable
     {
+        $delimiters = $this->getDelimiters($numbers);
+
         $appendingNumber = '';
 
         foreach (str_split($numbers) as $character) {
-            if ($character === ',' || $character === "\n") {
+            if (in_array($character, $delimiters, true)) {
                 $currentNumber = $appendingNumber;
                 $appendingNumber = '';
                 yield $this->toInt($currentNumber);
@@ -44,5 +50,36 @@ final class StringCalculator
         }
 
         yield $this->toInt($appendingNumber);
+    }
+
+    private function hasDelimiterHeader(string $input): bool
+    {
+        return str_starts_with($input, '//');
+    }
+
+    private function parseDelimiterHeader(string $input): ?string
+    {
+        if (!$this->hasDelimiterHeader($input)) {
+            return null;
+        }
+
+        // Supposing that delimiters are 1 char long
+        return substr($input, 2, 1);
+    }
+
+    /**
+     * @param string $input
+     *
+     * @return array<string>
+     */
+    public function getDelimiters(string $input): array
+    {
+        $customDelimiter = $this->parseDelimiterHeader($input);
+
+        if (null !== $customDelimiter) {
+            return [$customDelimiter];
+        }
+
+        return self::DELIMITERS;
     }
 }
