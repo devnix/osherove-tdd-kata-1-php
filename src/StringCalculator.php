@@ -28,14 +28,21 @@ final class StringCalculator
      *
      * @return iterable<int>
      */
-    public function parseNumbers(string $numbers): iterable
+    private function parseNumbers(string $numbers): iterable
     {
-        $listOfNumbers = explode(',', $numbers);
+        $appendingNumber = '';
 
-        foreach ($listOfNumbers as $number) {
-            yield $this->toInt($number);
+        foreach (str_split($numbers) as $character) {
+            if ($character === ',' || $character === "\n") {
+                $currentNumber = $appendingNumber;
+                $appendingNumber = '';
+                yield $this->toInt($currentNumber);
+                continue;
+            }
+
+            $appendingNumber .= $character;
         }
 
-        return $listOfNumbers;
+        yield $this->toInt($appendingNumber);
     }
 }

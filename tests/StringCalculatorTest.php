@@ -54,4 +54,14 @@ class StringCalculatorTest extends TestCase
         $this->assertSame(20, $this->stringCalculator->add('1,1,2,3,5,8'));
         $this->assertSame(33, $this->stringCalculator->add('1,1,2,3,5,8,13'));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_allow_to_handle_new_lines_between_numbers_as_separator(): void
+    {
+         $this->assertSame(6, $this->stringCalculator->add("1\n2,3"));
+         $this->assertSame(6, $this->stringCalculator->add("1,2\n3"));
+         $this->assertSame(10, $this->stringCalculator->add("1,2\n3,4"));
+    }
 }
