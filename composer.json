@@ -17,5 +17,11 @@
         "psr-4": {
             "App\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "check": [
+            "@php vendor/bin/phpunit",
+            "@php vendor/bin/phpstan"
+        ]
     }
 }
