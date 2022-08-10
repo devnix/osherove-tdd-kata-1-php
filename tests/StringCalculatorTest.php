@@ -28,4 +28,14 @@ class StringCalculatorTest extends TestCase
         $this->assertSame(75, $stringCalculator->add('75'));
         $this->assertSame(999, $stringCalculator->add('999'));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_sum_if_two_numbers_are_passed(): void
+    {
+        $stringCalculator = new StringCalculator();
+        $this->assertSame(3, $stringCalculator->add('1,2'));
+        $this->assertSame(666, $stringCalculator->add('555,111'));
+    }
 }

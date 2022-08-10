@@ -8,10 +8,34 @@ final class StringCalculator
 {
     public function add(string $numbers): int
     {
-        if ('' === $numbers) {
-            return 0;
+        $listOfNumbers = $this->parseNumbers($numbers);
+
+        $lastResult = 0;
+        foreach ($listOfNumbers as $number) {
+            $lastResult += $number;
         }
 
-        return (int)$numbers;
+        return $lastResult;
+    }
+
+    private function toInt(string $number): int
+    {
+        return (int) $number;
+    }
+
+    /**
+     * @param string $numbers
+     *
+     * @return iterable<int>
+     */
+    public function parseNumbers(string $numbers): iterable
+    {
+        $listOfNumbers = explode(',', $numbers);
+
+        foreach ($listOfNumbers as $number) {
+            yield $this->toInt($number);
+        }
+
+        return $listOfNumbers;
     }
 }
