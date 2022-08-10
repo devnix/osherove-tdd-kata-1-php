@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App;
 
+use Traversable;
+
 final class StringCalculator
 {
     private const DELIMITERS = [
         ',',
         "\n",
     ];
+
     public function add(string $numbers): int
     {
-        $listOfNumbers = $this->parseNumbers($numbers);
+        $listOfNumbers = iterator_to_array($this->parseNumbers($numbers));
+
+        $this->assertAllNumbersArePositive($listOfNumbers);
 
         $lastResult = 0;
         foreach ($listOfNumbers as $number) {
@@ -24,21 +29,15 @@ final class StringCalculator
 
     private function toInt(string $number): int
     {
-        $result = (int) $number;
-
-        if (0 > $result) {
-            throw new \RuntimeException(sprintf('negatives not allowed %s', $result));
-        }
-
-        return $result;
+        return (int) $number;
     }
 
     /**
      * @param string $numbers
      *
-     * @return iterable<int>
+     * @return Traversable<int>
      */
-    private function parseNumbers(string $numbers): iterable
+    private function parseNumbers(string $numbers): Traversable
     {
         $delimiters = $this->getDelimiters($numbers);
 
@@ -78,7 +77,7 @@ final class StringCalculator
      *
      * @return array<string>
      */
-    public function getDelimiters(string $input): array
+    private function getDelimiters(string $input): array
     {
         $customDelimiter = $this->parseDelimiterHeader($input);
 
@@ -87,5 +86,22 @@ final class StringCalculator
         }
 
         return self::DELIMITERS;
+    }
+
+    private function assertAllNumbersArePositive(array $numbers): void
+    {
+        $negativeNumbers = [];
+
+        foreach ($numbers as $number) {
+            if (0 > $number) {
+                $negativeNumbers[] = $number;
+            }
+        }
+
+        if ([] !== $negativeNumbers) {
+            throw new \RuntimeException(
+                sprintf('negatives not allowed %s', implode(' ', $negativeNumbers))
+            );
+        }
     }
 }

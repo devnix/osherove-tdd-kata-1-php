@@ -82,4 +82,15 @@ class StringCalculatorTest extends TestCase
         $this->expectExceptionMessage('negatives not allowed -2');
         $this->stringCalculator->add("1,-2");
     }
+
+    /**
+     * @test
+     */
+    public function if_there_is_more_than_one_negative_number_they_should_all_be_in_the_exception(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('negatives not allowed -1 -2 -4');
+        $this->stringCalculator->add("-1,-2, 3,-4");
+
+    }
 }
