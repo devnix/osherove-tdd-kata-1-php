@@ -30,6 +30,10 @@ final class StringCalculator
 
         $lastResult = 0;
         foreach ($listOfNumbers as $number) {
+            if ($number > 1000) {
+                continue;
+            }
+
             $lastResult += $number;
         }
 

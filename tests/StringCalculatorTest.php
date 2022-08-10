@@ -105,4 +105,13 @@ class StringCalculatorTest extends TestCase
         $this->stringCalculator->add('1,1');
         $this->assertEquals(3, $this->stringCalculator->getCalledCount());
     }
+
+    /**
+     * @test
+     */
+    public function it_should_ignore_numbers_bigger_than_1000(): void
+    {
+        $this->assertSame(2, $this->stringCalculator->add('2,1001'));
+        $this->assertSame(3, $this->stringCalculator->add('1,2,1001'));
+    }
 }
