@@ -17,4 +17,15 @@ class StringCalculatorTest extends TestCase
         $stringCalculator = new StringCalculator();
         $this->assertSame(0, $stringCalculator->add(''));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_return_the_same_number_if_one_number_is_passed(): void
+    {
+        $stringCalculator = new StringCalculator();
+        $this->assertSame(1, $stringCalculator->add('1'));
+        $this->assertSame(75, $stringCalculator->add('75'));
+        $this->assertSame(999, $stringCalculator->add('999'));
+    }
 }
