@@ -91,6 +91,18 @@ class StringCalculatorTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('negatives not allowed -1 -2 -4');
         $this->stringCalculator->add("-1,-2, 3,-4");
+    }
 
+    /**
+     * @test
+     */
+    public function it_should_have_a_method_to_count_how_many_times_add_was_invoked(): void
+    {
+        $this->assertEquals(0, $this->stringCalculator->getCalledCount());
+        $this->stringCalculator->add('');
+        $this->stringCalculator->add('');
+        $this->assertEquals(2, $this->stringCalculator->getCalledCount());
+        $this->stringCalculator->add('1,1');
+        $this->assertEquals(3, $this->stringCalculator->getCalledCount());
     }
 }

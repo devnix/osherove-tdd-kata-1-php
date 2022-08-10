@@ -8,13 +8,22 @@ use Traversable;
 
 final class StringCalculator
 {
+    private int $calledCount = 0;
+
     private const DELIMITERS = [
         ',',
         "\n",
     ];
 
+    public function getCalledCount(): int
+    {
+        return $this->calledCount;
+    }
+
     public function add(string $numbers): int
     {
+        $this->incrementCalledCount();
+
         $listOfNumbers = iterator_to_array($this->parseNumbers($numbers));
 
         $this->assertAllNumbersArePositive($listOfNumbers);
@@ -103,5 +112,13 @@ final class StringCalculator
                 sprintf('negatives not allowed %s', implode(' ', $negativeNumbers))
             );
         }
+    }
+
+    /**
+     * @return void
+     */
+    public function incrementCalledCount(): void
+    {
+        $this->calledCount++;
     }
 }
